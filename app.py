@@ -12,12 +12,14 @@ db = SQLAlchemy(app)
 
 # Define Models
 class Restaurant(db.Model):
+    # rstaurant table: columns: recipes, ingridients, prepering time and ID.
     recepies = db.Column(db.String(100),nullable=False)
     ingridients = db.Column(db.String(100))
     prepering_time = db.Column(db.Integer)
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
 class User(db.Model):
+    # users table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(45), unique=True)
     password = db.Column(db.String(1000))
@@ -25,16 +27,17 @@ class User(db.Model):
 #routes
 @app.route("/")
 def main():
+    #the mian route that render the home page with the list of the current recipes
     my_restaurants = Restaurant.query.all()
     return render_template("index.html", my_restaurants=my_restaurants)
     
-
+#add new restaurant
 @app.route('/add', methods=['GET', 'POST'])
 def add_rest():
-    if not session.get('logged_in'):
+    if not session.get('logged_in'): # check if the user is logged in.
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
+    if request.method == 'POST': # add new recipe
         recepies = request.form['recepies']
         ingridients = request.form['ingridients']
         prepering_time = request.form['prepering_time']
@@ -48,7 +51,7 @@ def add_rest():
         return redirect(url_for('main'))
     return render_template('add_rest.html')
 
-
+# edit existent recipe
 @app.route('/edit/<int:restaurant_id>', methods=['GET', 'POST'])
 def edit_restaurant(restaurant_id):
     if not session.get('logged_in'):
@@ -68,6 +71,7 @@ def edit_restaurant(restaurant_id):
 
     return render_template('edit_rest.html', restaurant=restaurant)
 
+# delete recipe
 @app.route('/delete/<int:restaurant_id>', methods=['POST'])
 def delete_restaurant(restaurant_id):
     if not session.get('logged_in'):
@@ -80,7 +84,7 @@ def delete_restaurant(restaurant_id):
     flash('Restaurant deleted successfully', 'success')
     return redirect(url_for('main'))
 
-
+# login with exist user details
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -97,13 +101,14 @@ def login():
             flash('Invalid username or password', 'error')
     return render_template('login.html')
 
+# add new user details
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password) # encrypt the password
         
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
