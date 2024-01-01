@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="alert alert-info" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+<h1>Edit Restaurant</h1>
+<form method="POST">
+    <label for="recepies">Recepies</label>
+    <input type="text" name="recepies" value="{{ restaurant.recepies }}"><br><br>
+
+    <label for="ingridients">Ingridients</label>
+    <input type="text" name="ingridients" value="{{ restaurant.ingridients }}"><br><br>
+
+    <label for="prepering_time">Prepering Time</label>
+    <input type="text" name="prepering_time" value="{{ restaurant.prepering_time }}"><br><br>
+
+    <button type="submit">Update Restaurant</button>
+</form>
+{% endblock %}
+

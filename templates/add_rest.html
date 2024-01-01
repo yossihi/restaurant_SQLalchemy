@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="alert alert-info" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+<!-- Rest of your content -->
+<h1>Add Restaurant</h1>
+<!-- Add car form -->
+
+    <form method="POST" action="/add">
+        <div class="form-group">
+            <label for="recepies">Recepies:</label>
+            <input type="text" class="form-control" id="recepies" name="recepies" required>
+        </div>
+        <div class="form-group">
+            <label for="ingridients">Ingridients:</label>
+            <input type="text" class="form-control" id="ingridients" name="ingridients" required>
+        </div>
+        <div class="form-group">
+            <label for="prepering_time">Prepering Time:</label>
+            <input type="text" class="form-control" id="prepering_time" name="prepering_time" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Restaurant</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}User Registration{% endblock %}
+
+{% block content %}
+    <h2>User Registration</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="/register">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+    <p>Already have an account? <a href="/login">Login</a></p>
+{% endblock %}

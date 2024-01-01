@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="alert alert-info" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+<!-- Rest of your content -->
+<h1>All Recepies</h1>
+<!-- Table displaying cars -->
+
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>Recepies</th>
+                <th>Ingridients</th>
+                <th>Prepering Time</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rest in my_restaurants %}
+            <tr>
+                <td>{{ rest.recepies }}</td>
+                <td>{{ rest.ingridients }}</td>
+                <td>{{ rest.prepering_time }}</td>
+                <td>{{ rest.id }}</td>
+                <td>
+                    <a href="/edit/{{ rest.id }}" class="btn btn-sm btn-primary">Edit</a>
+                    <form action="/delete/{{ rest.id }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
